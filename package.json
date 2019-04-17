@@ -1,8 +1,8 @@
 {
-  "name": "to-do-list_nejtjs",
+  "name": "desk_us_back_end",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "simple to do app working with rooms (one room = a to do list on a subject + a chat)",
+  "author": "maxime surmont",
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
