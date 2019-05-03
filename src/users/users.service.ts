@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 
-import { IUser } from './interfaces/user.interface'
+import { IUser } from './entities/user.interface'
 
 import { CreateUserDto } from './dtos/create-user.dto'
 import { ConnectUserDto } from './dtos/connect-user.dto'

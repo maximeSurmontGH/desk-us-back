@@ -1,5 +1,5 @@
 import { ITaskList } from './task-list.interface'
-import { IUser } from '../../users/interfaces/user.interface'
+import { IUser } from '../../users/entities/user.interface'
 
 export interface IRoom {
   readonly saloonId: string
