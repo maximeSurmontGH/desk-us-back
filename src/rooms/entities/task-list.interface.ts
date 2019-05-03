@@ -1,4 +1,4 @@
-import { ITask } from '../../tasks/interfaces/task.interface'
+import { ITask } from './task.interface'
 
 export interface ITaskList {
   readonly title: string

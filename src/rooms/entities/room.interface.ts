@@ -1,4 +1,4 @@
-import { ITaskList } from '../../tasks-lists/interfaces/task-list.interface'
+import { ITaskList } from './task-list.interface'
 import { IUser } from '../../users/interfaces/user.interface'
 
 export interface IRoom {
