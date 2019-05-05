@@ -1,11 +1,11 @@
 import {
   Controller,
   Post,
-  Put,
   Delete,
+  Get,
   Param,
   Body,
-  UseFilters,
+  UseFilters
 } from '@nestjs/common'
 
 import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
@@ -14,7 +14,7 @@ import { UsersService } from './users.service'
 
 import { CreateUserDto } from './dtos/create-user.dto'
 import { ConnectUserDto } from './dtos/connect-user.dto'
-import { UpdateUserDto } from './dtos/update-user.dto'
+import { UserIdDto } from './dtos/user-id.dto'
 
 @Controller('users')
 @UseFilters(HttpExceptionFilter)
@@ -31,13 +31,13 @@ export class UsersController {
     return this.usersService.userConnexion(connectUserDto)
   }
 
-  @Put('/:userId')
-  updateUser(@Param('userId') userId: string, @Body() userDto: UpdateUserDto) {
-    return this.usersService.updateUser(userId, userDto)
+  @Get('/:userId')
+  getUser(@Param('userId') userId: UserIdDto) {
+    return this.usersService.getUser(userId)
   }
 
   @Delete('/:userId')
-  deleteUser(@Param('userId') userId: string) {
+  deleteUser(@Param('userId') userId: UserIdDto) {
     return this.usersService.deleteUser(userId)
   }
 }

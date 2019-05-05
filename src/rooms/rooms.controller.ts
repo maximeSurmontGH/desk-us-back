@@ -2,11 +2,10 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Delete,
   Param,
   Body,
-  UseFilters,
+  UseFilters
 } from '@nestjs/common'
 
 import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
@@ -23,9 +22,7 @@ import { TaskIdDto } from './dtos/task-id.dto'
 @Controller('rooms')
 @UseFilters(HttpExceptionFilter)
 export class RoomsController {
-  constructor(
-    private readonly roomsService: RoomsService,
-  ) {}
+  constructor(private readonly roomsService: RoomsService) {}
 
   @Get('')
   getRooms() {
@@ -50,7 +47,7 @@ export class RoomsController {
   @Post('/:roomId')
   createTaskList(
     @Param('roomId') roomId: RoomIdDto,
-    @Body() createTaskListDto: CreateTaskListDto,
+    @Body() createTaskListDto: CreateTaskListDto
   ) {
     return this.roomsService.createTaskList(roomId, createTaskListDto)
   }
@@ -58,7 +55,7 @@ export class RoomsController {
   @Get('/:roomId/:taskListId')
   getTaskList(
     @Param('roomId') roomId: RoomIdDto,
-    @Param('taskListId') taskListId: TaskListIdDto,
+    @Param('taskListId') taskListId: TaskListIdDto
   ) {
     return this.roomsService.getTaskList(roomId, taskListId)
   }
@@ -66,7 +63,7 @@ export class RoomsController {
   @Delete('/:roomId/:taskListId')
   deleteTaskList(
     @Param('roomId') roomId: RoomIdDto,
-    @Param('taskListId') taskListId: TaskListIdDto,
+    @Param('taskListId') taskListId: TaskListIdDto
   ) {
     return this.roomsService.deleteTaskList(roomId, taskListId)
   }
@@ -75,7 +72,7 @@ export class RoomsController {
   createTask(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskListId') taskListId: TaskListIdDto,
-    @Body() createTaskDto: CreateTaskDto,
+    @Body() createTaskDto: CreateTaskDto
   ) {
     return this.roomsService.createTask(roomId, taskListId, createTaskDto)
   }
@@ -84,7 +81,7 @@ export class RoomsController {
   getTask(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskId') taskListId: TaskListIdDto,
-    @Param('taskId') taskId: TaskIdDto,
+    @Param('taskId') taskId: TaskIdDto
   ) {
     return this.roomsService.getTask(roomId, taskListId, taskId)
   }
@@ -93,7 +90,7 @@ export class RoomsController {
   deleteTask(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskId') taskListId: TaskListIdDto,
-    @Param('taskId') taskId: TaskIdDto,
+    @Param('taskId') taskId: TaskIdDto
   ) {
     return this.roomsService.deleteTask(roomId, taskListId, taskId)
   }
