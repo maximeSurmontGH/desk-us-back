@@ -1,3 +1,8 @@
-import { ITask } from './task.interface';
+import { ITask, EState } from './task.interface'
 
-export interface Task extends ITask {}
+export class Task implements ITask {
+  public taskId: string
+  public order: number
+  public message: string
+  public state: EState
+}

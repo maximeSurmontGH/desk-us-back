@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException
+} from '@nestjs/common'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 
@@ -21,17 +25,29 @@ export class RoomsService {
     @InjectModel('Task') private readonly taskModel: Model<Task>
   ) {}
 
-  public getRooms() {
-    throw new UnauthorizedException('WRONG LOGIN OR PASSWORD')
-    // return `all rooms`
+  public async fetchRooms() {
+    const roomsFetched = await this.roomModel.find()
+    if (!roomsFetched.length) {
+      throw new NotFoundException('No rooms found.')
+    }
+    return roomsFetched
   }
 
-  public createRoom(createRoomDto: CreateRoomDto) {
-    return 'create a new room'
+  public async createRoom(createRoomDto: CreateRoomDto) {
+    try {
+      const roomToCreate = new this.roomModel(createRoomDto)
+      return await roomToCreate.save()
+    } catch (err) {
+      throw new BadRequestException('New room not saved.')
+    }
   }
 
-  public getRoom(roomId: RoomIdDto) {
-    return `all tasks lists from room ${roomId}`
+  public async fetchRoom(roomId: RoomIdDto) {
+    const roomFetched = await this.roomModel.find({ roomId: roomId })
+    if (!roomFetched) {
+      throw new NotFoundException(`Room from roomId ${roomId} not found.`)
+    }
+    return roomFetched
   }
 
   public deleteRoom(roomId: RoomIdDto) {
@@ -45,7 +61,7 @@ export class RoomsService {
     return 'create a new room'
   }
 
-  public getTaskList(roomId: RoomIdDto, taskListId: TaskListIdDto) {
+  public fetchTaskList(roomId: RoomIdDto, taskListId: TaskListIdDto) {
     return `all tasks from taks list ${taskListId}`
   }
 
@@ -61,7 +77,7 @@ export class RoomsService {
     return 'create a new room'
   }
 
-  public getTask(
+  public fetchTask(
     roomId: RoomIdDto,
     taskListId: TaskListIdDto,
     taskId: TaskIdDto
