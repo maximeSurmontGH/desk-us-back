@@ -44,7 +44,7 @@ export class RoomsController {
     return this.roomsService.deleteRoom(roomId)
   }
 
-  @Post('/:roomId')
+  @Post('/:roomId/tasksLists')
   createTaskList(
     @Param('roomId') roomId: RoomIdDto,
     @Body() createTaskListDto: CreateTaskListDto
@@ -52,7 +52,7 @@ export class RoomsController {
     return this.roomsService.createTaskList(roomId, createTaskListDto)
   }
 
-  @Get('/:roomId/:taskListId')
+  @Get('/:roomId/tasksLists/:taskListId')
   fetchTaskList(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskListId') taskListId: TaskListIdDto
@@ -60,7 +60,7 @@ export class RoomsController {
     return this.roomsService.fetchTaskList(roomId, taskListId)
   }
 
-  @Delete('/:roomId/:taskListId')
+  @Delete('/:roomId/tasksLists/:taskListId')
   deleteTaskList(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskListId') taskListId: TaskListIdDto
@@ -68,7 +68,7 @@ export class RoomsController {
     return this.roomsService.deleteTaskList(roomId, taskListId)
   }
 
-  @Post('/:roomId/:taskListId')
+  @Post('/:roomId/tasksLists/:taskListId/tasks')
   createTask(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskListId') taskListId: TaskListIdDto,
@@ -77,16 +77,7 @@ export class RoomsController {
     return this.roomsService.createTask(roomId, taskListId, createTaskDto)
   }
 
-  @Get('/:roomId/:taskListId/:taskId')
-  fetchTask(
-    @Param('roomId') roomId: RoomIdDto,
-    @Param('taskId') taskListId: TaskListIdDto,
-    @Param('taskId') taskId: TaskIdDto
-  ) {
-    return this.roomsService.fetchTask(roomId, taskListId, taskId)
-  }
-
-  @Delete('/:roomId/:taskListId/:taskId')
+  @Delete('/:roomId/tasksLists/:taskListId/tasks/:taskId')
   deleteTask(
     @Param('roomId') roomId: RoomIdDto,
     @Param('taskId') taskListId: TaskListIdDto,

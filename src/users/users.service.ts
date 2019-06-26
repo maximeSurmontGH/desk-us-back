@@ -74,7 +74,7 @@ export class UsersService {
   }
 
   public async fetchUser(userIdDto: UserIdDto) {
-    const userToFetch = await this.userModel.findOne(userIdDto)
+    const userToFetch = await this.userModel.findOne({ _id: userIdDto })
     if (!userToFetch) {
       throw new NotFoundException(
         `User from userId ${userIdDto.userId} not found.`
@@ -85,7 +85,9 @@ export class UsersService {
   }
 
   public async deleteUser(userIdDto: UserIdDto) {
-    const deleteResult = await this.userModel.findOneAndDelete(userIdDto)
+    const deleteResult = await this.userModel.findOneAndDelete({
+      _id: userIdDto
+    })
     if (!deleteResult) {
       throw new NotFoundException(
         `User from userId ${userIdDto.userId} not found.`
