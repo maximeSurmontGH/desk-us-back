@@ -2,7 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   NotFoundException,
-  BadRequestException
+  InternalServerErrorException
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
@@ -38,7 +38,7 @@ export class UsersService {
       await userToCreate.save()
       return userCreated
     } catch (err) {
-      throw new BadRequestException('New user not saved.')
+      throw new InternalServerErrorException('New user not saved.')
     }
   }
 
@@ -50,9 +50,7 @@ export class UsersService {
   }
 
   public async isLoginExisting(isLoginExistingDto: IsLoginExistingDto) {
-    const isLoginExisting = await this.userModel.find({
-      login: isLoginExistingDto.login
-    })
+    const isLoginExisting = await this.userModel.find(isLoginExistingDto)
     return isLoginExisting.length ? true : false
   }
 
@@ -75,21 +73,23 @@ export class UsersService {
     return userConnected
   }
 
-  public async fetchUser(userId: UserIdDto) {
-    const userToFetch = await this.userModel.findOne({ userId: userId })
+  public async fetchUser(userIdDto: UserIdDto) {
+    const userToFetch = await this.userModel.findOne(userIdDto)
     if (!userToFetch) {
-      throw new NotFoundException(`User from userId ${userId} not found.`)
+      throw new NotFoundException(
+        `User from userId ${userIdDto.userId} not found.`
+      )
     }
     const userFetched = new User(userToFetch)
     return userFetched
   }
 
-  public async deleteUser(userId: UserIdDto) {
-    const deleteResult = await this.userModel.findOneAndDelete({
-      userId: userId
-    })
+  public async deleteUser(userIdDto: UserIdDto) {
+    const deleteResult = await this.userModel.findOneAndDelete(userIdDto)
     if (!deleteResult) {
-      throw new NotFoundException(`User from userId ${userId} not found.`)
+      throw new NotFoundException(
+        `User from userId ${userIdDto.userId} not found.`
+      )
     }
   }
 }

@@ -1,7 +1,7 @@
 import {
   Injectable,
   NotFoundException,
-  BadRequestException
+  InternalServerErrorException
 } from '@nestjs/common'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
@@ -25,71 +25,124 @@ export class RoomsService {
     @InjectModel('Task') private readonly taskModel: Model<Task>
   ) {}
 
-  public async fetchRooms() {
-    const roomsFetched = await this.roomModel.find()
-    if (!roomsFetched.length) {
+  public async fetchRooms(): Promise<Room[]> {
+    const rooms = await this.roomModel.find()
+    if (!rooms.length) {
       throw new NotFoundException('No rooms found.')
     }
-    return roomsFetched
+    // @todo add builder
+    return rooms
   }
 
-  public async createRoom(createRoomDto: CreateRoomDto) {
+  public async createRoom(createRoomDto: CreateRoomDto): Promise<void> {
     try {
-      const roomToCreate = new this.roomModel(createRoomDto)
-      return await roomToCreate.save()
+      const room = new this.roomModel(createRoomDto)
+      return room.save()
     } catch (err) {
-      throw new BadRequestException('New room not saved.')
+      throw new InternalServerErrorException('New room not saved.')
     }
   }
 
-  public async fetchRoom(roomId: RoomIdDto) {
-    const roomFetched = await this.roomModel.find({ roomId: roomId })
-    if (!roomFetched) {
-      throw new NotFoundException(`Room from roomId ${roomId} not found.`)
+  public async fetchRoom(roomIdDto: RoomIdDto): Promise<Room> {
+    const room = await this.roomModel.find(roomIdDto)
+    if (!room) {
+      throw new NotFoundException(
+        `Room from roomId ${roomIdDto.roomId} not found.`
+      )
     }
-    return roomFetched
+    // @todo add builder
+    return room
   }
 
-  public deleteRoom(roomId: RoomIdDto) {
-    return `delete room ${roomId}`
+  public async deleteRoom(roomIdDto: RoomIdDto): Promise<void> {
+    const deleteResult = this.roomModel.findOneAndDelete(roomIdDto)
+    if (!deleteResult) {
+      throw new NotFoundException(
+        `Room from rommId ${roomIdDto.roomId} not found.`
+      )
+    }
   }
 
-  public createTaskList(
+  public async createTaskList(
     roomIdDto: RoomIdDto,
     createTaskListDto: CreateTaskListDto
+  ): Promise<void> {
+    try {
+      const taskList = new this.taskListModel(createTaskListDto)
+      await taskList.save()
+      const room = await this.fetchRoom(roomIdDto)
+      room.tasks.push()
+      room.save()
+    } catch (err) {
+      throw new InternalServerErrorException('New task list not saved.')
+    }
+  }
+
+  public async fetchTaskList(
+    roomIdDto: RoomIdDto,
+    taskListIdDto: TaskListIdDto
   ) {
-    return 'create a new room'
+    const taskListFetched = await this.taskListModel.find(taskListIdDto)
+    if (!taskListFetched) {
+      throw new NotFoundException(
+        `Task list from taskListId ${taskListIdDto.taskListId} not found.`
+      )
+    }
+    return taskListFetched
   }
 
-  public fetchTaskList(roomId: RoomIdDto, taskListId: TaskListIdDto) {
-    return `all tasks from taks list ${taskListId}`
+  public async deleteTaskList(
+    roomIdDto: RoomIdDto,
+    taskListIdDto: TaskListIdDto
+  ) {
+    const deleteResult = await this.taskListModel.findOneAndDelete(
+      taskListIdDto
+    )
+    if (!deleteResult) {
+      throw new NotFoundException(
+        `Task list from askListId ${taskListIdDto.taskListId} not found.`
+      )
+    }
   }
 
-  public deleteTaskList(roomId: RoomIdDto, taskListId: TaskListIdDto) {
-    return `delete task list ${taskListId}`
-  }
-
-  public createTask(
-    roomId: RoomIdDto,
-    taskListId: TaskListIdDto,
+  public async createTask(
+    roomIdDto: RoomIdDto,
+    taskListIdDto: TaskListIdDto,
     createTaskDto: CreateTaskDto
   ) {
-    return 'create a new room'
+    try {
+      const taskToCreate = new this.taskModel(createTaskDto)
+      await taskToCreate.save()
+      // update task list
+    } catch (err) {
+      throw new InternalServerErrorException('New task not saved.')
+    }
   }
 
-  public fetchTask(
-    roomId: RoomIdDto,
-    taskListId: TaskListIdDto,
-    taskId: TaskIdDto
+  public async fetchTask(
+    roomIdDto: RoomIdDto,
+    taskListIdDto: TaskListIdDto,
+    taskIdDto: TaskIdDto
   ) {
-    return `task ${taskId}`
+    const taskFetched = await this.taskModel.find(taskIdDto)
+    if (!taskFetched) {
+      throw new NotFoundException(
+        `Task from taskId ${taskIdDto.taskId} not found.`
+      )
+    }
+    return taskFetched
   }
 
-  public deleteTask(
-    roomId: RoomIdDto,
-    taskListId: TaskListIdDto,
-    taskId: TaskIdDto
+  public async deleteTask(
+    roomIdDto: RoomIdDto,
+    taskListIdDto: TaskListIdDto,
+    taskIdDto: TaskIdDto
   ) {
-    return `delete task ${taskId}`
+    const deleteResult = await this.taskModel.findOneAndDelete(taskIdDto)
+    if (!deleteResult) {
+      throw new NotFoundException(
+        `Task list from taskId ${taskIdDto.taskId} not found.`
+      )
+    }
   }
 }

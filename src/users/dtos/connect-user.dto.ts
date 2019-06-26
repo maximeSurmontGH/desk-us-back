@@ -3,7 +3,7 @@ import { IsString, IsEmail, IsNotEmpty, MaxLength } from 'class-validator'
 export class ConnectUserDto {
   @IsString()
   @MaxLength(20)
-  readonly login?: string
+  readonly login: string
 
   @IsString()
   @IsNotEmpty()
