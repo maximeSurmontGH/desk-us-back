@@ -1,9 +1,9 @@
 import { ITask } from './task.interface'
 import * as mongoose from 'mongoose'
 
-export interface ITaskList extends mongoose.Document {
+export interface ITasksList extends mongoose.Document {
   readonly _id?: string
-  readonly taskListId: string
+  readonly tasksListId: string
   readonly title: string
   readonly order: number
   readonly tasks: ITask[]

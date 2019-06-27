@@ -1,7 +1,7 @@
 import { IsNumberString, IsNotEmpty } from 'class-validator'
 
-export class TaskListIdDto {
+export class TasksListIdDto {
   @IsNumberString()
   @IsNotEmpty()
-  readonly taskListId: number
+  readonly tasksListId: number
 }

@@ -1,7 +1,7 @@
-import { IRoom } from '../room.interface'
-import { Room } from '../room.entity'
+import { IRoom } from './room.interface'
+import { Room } from './room.entity'
 import { TasksListBuilder } from './tasks-list.builder'
-import { UserBuilder } from 'src/users/entities/builders/user.builder'
+import { UserBuilder } from 'src/users/entities/user.builder'
 
 export class RoomBuilder {
   private room: Room

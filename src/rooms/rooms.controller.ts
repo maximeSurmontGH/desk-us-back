@@ -12,11 +12,11 @@ import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
 
 import { RoomsService } from './rooms.service'
 
-import { CreateTaskListDto } from './dtos/create-task-list.dto'
+import { CreateTasksListDto } from './dtos/create-task-list.dto'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import { CreateRoomDto } from './dtos/create-room.dto'
 import { RoomIdDto } from './dtos/room-id.dto'
-import { TaskListIdDto } from './dtos/task-list-id.dto'
+import { TasksListIdDto } from './dtos/task-list-id.dto'
 import { TaskIdDto } from './dtos/task-id.dto'
 
 @Controller('rooms')
@@ -45,44 +45,44 @@ export class RoomsController {
   }
 
   @Post('/:roomId/tasksLists')
-  createTaskList(
+  createTasksList(
     @Param('roomId') roomId: RoomIdDto,
-    @Body() createTaskListDto: CreateTaskListDto
+    @Body() createTasksListDto: CreateTasksListDto
   ) {
-    return this.roomsService.createTaskList(roomId, createTaskListDto)
+    return this.roomsService.createTasksList(roomId, createTasksListDto)
   }
 
-  @Get('/:roomId/tasksLists/:taskListId')
-  fetchTaskList(
+  @Get('/:roomId/tasksLists/:tasksListId')
+  fetchTasksList(
     @Param('roomId') roomId: RoomIdDto,
-    @Param('taskListId') taskListId: TaskListIdDto
+    @Param('tasksListId') tasksListId: TasksListIdDto
   ) {
-    return this.roomsService.fetchTaskList(roomId, taskListId)
+    return this.roomsService.fetchTasksList(roomId, tasksListId)
   }
 
-  @Delete('/:roomId/tasksLists/:taskListId')
-  deleteTaskList(
+  @Delete('/:roomId/tasksLists/:tasksListId')
+  deleteTasksList(
     @Param('roomId') roomId: RoomIdDto,
-    @Param('taskListId') taskListId: TaskListIdDto
+    @Param('tasksListId') tasksListId: TasksListIdDto
   ) {
-    return this.roomsService.deleteTaskList(roomId, taskListId)
+    return this.roomsService.deleteTasksList(roomId, tasksListId)
   }
 
-  @Post('/:roomId/tasksLists/:taskListId/tasks')
+  @Post('/:roomId/tasksLists/:tasksListId/tasks')
   createTask(
     @Param('roomId') roomId: RoomIdDto,
-    @Param('taskListId') taskListId: TaskListIdDto,
+    @Param('tasksListId') tasksListId: TasksListIdDto,
     @Body() createTaskDto: CreateTaskDto
   ) {
-    return this.roomsService.createTask(roomId, taskListId, createTaskDto)
+    return this.roomsService.createTask(roomId, tasksListId, createTaskDto)
   }
 
-  @Delete('/:roomId/tasksLists/:taskListId/tasks/:taskId')
+  @Delete('/:roomId/tasksLists/:tasksListId/tasks/:taskId')
   deleteTask(
     @Param('roomId') roomId: RoomIdDto,
-    @Param('taskId') taskListId: TaskListIdDto,
+    @Param('taskId') tasksListId: TasksListIdDto,
     @Param('taskId') taskId: TaskIdDto
   ) {
-    return this.roomsService.deleteTask(roomId, taskListId, taskId)
+    return this.roomsService.deleteTask(roomId, tasksListId, taskId)
   }
 }

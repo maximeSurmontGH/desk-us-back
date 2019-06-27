@@ -1,20 +1,20 @@
-import { TaskList } from '../task-list.entity'
-import { ITaskList } from '../task-list.interface'
+import { TasksList } from './tasks-list.entity'
+import { ITasksList } from './tasks-list.interface'
 import { TaskBuilder } from './task.builder'
 
 export class TasksListBuilder {
-  private tasksList: TaskList
+  private tasksList: TasksList
 
   public static aTasksList(): TasksListBuilder {
     return new TasksListBuilder()
   }
 
   constructor() {
-    this.tasksList = new TaskList()
+    this.tasksList = new TasksList()
   }
 
-  public fromSchemaResponse(tasksList: ITaskList): this {
-    this.tasksList.taskListId = tasksList._id || ''
+  public fromSchemaResponse(tasksList: ITasksList): this {
+    this.tasksList.tasksListId = tasksList._id || ''
     this.tasksList.title = tasksList.title
     this.tasksList.order = tasksList.order
     this.tasksList.tasks = tasksList.tasks.map(task =>
@@ -25,27 +25,27 @@ export class TasksListBuilder {
     return this
   }
 
-  public withTasksListId(taskListId: TaskList['taskListId']): this {
-    this.tasksList.taskListId = taskListId
+  public withTasksListId(tasksListId: TasksList['tasksListId']): this {
+    this.tasksList.tasksListId = tasksListId
     return this
   }
 
-  public withTitle(title: TaskList['title']): this {
+  public withTitle(title: TasksList['title']): this {
     this.tasksList.title = title
     return this
   }
 
-  public withOrder(order: TaskList['order']): this {
+  public withOrder(order: TasksList['order']): this {
     this.tasksList.order = order
     return this
   }
 
-  public withTasls(tasks: TaskList['tasks']): this {
+  public withTasls(tasks: TasksList['tasks']): this {
     this.tasksList.tasks = tasks
     return this
   }
 
-  public build(): TaskList {
+  public build(): TasksList {
     return this.tasksList
   }
 }

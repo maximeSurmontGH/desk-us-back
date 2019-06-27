@@ -7,22 +7,23 @@ import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 import { CreateRoomDto } from './dtos/create-room.dto'
 import { RoomIdDto } from './dtos/room-id.dto'
-import { CreateTaskListDto } from './dtos/create-task-list.dto'
-import { TaskListIdDto } from './dtos/task-list-id.dto'
+import { CreateTasksListDto } from './dtos/create-task-list.dto'
+import { TasksListIdDto } from './dtos/task-list-id.dto'
 import { TaskIdDto } from './dtos/task-id.dto'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import { IRoom } from './entities/room.interface'
-import { ITaskList } from './entities/task-list.interface'
+import { ITasksList } from './entities/tasks-list.interface'
 import { ITask } from './entities/task.interface'
 import { Room } from './entities/room.entity'
-import { TaskList } from './entities/task-list.entity'
+import { TasksList } from './entities/tasks-list.entity'
 import { Task } from './entities/task.entity'
 
 @Injectable()
 export class RoomsService {
   constructor(
     @InjectModel('Room') private readonly roomModel: Model<IRoom>,
-    @InjectModel('TaskList') private readonly taskListModel: Model<ITaskList>,
+    @InjectModel('TasksList')
+    private readonly tasksListModel: Model<ITasksList>,
     @InjectModel('Task') private readonly taskModel: Model<ITask>
   ) {}
 
@@ -65,9 +66,9 @@ export class RoomsService {
     }
   }
 
-  public async createTaskList(
+  public async createTasksList(
     roomIdDto: RoomIdDto,
-    createTaskListDto: CreateTaskListDto
+    createTasksListDto: CreateTasksListDto
   ): Promise<Room> {
     try {
       // @todo findOneAndUpdate return the new Object ?
@@ -75,7 +76,7 @@ export class RoomsService {
         { _id: roomIdDto },
         {
           // @todo not sure it is good
-          $push: { tasksLists: createTaskListDto }
+          $push: { tasksLists: createTasksListDto }
         }
       )
       // @todo add builder
@@ -85,33 +86,33 @@ export class RoomsService {
     }
   }
 
-  public async fetchTaskList(
+  public async fetchTasksList(
     roomIdDto: RoomIdDto,
-    taskListIdDto: TaskListIdDto
-  ): Promise<TaskList> {
+    tasksListIdDto: TasksListIdDto
+  ): Promise<TasksList> {
     const room = await this.roomModel.findOneAndUpdate({
       _id: roomIdDto,
-      'tasksLists._id': taskListIdDto.taskListId
+      'tasksLists._id': tasksListIdDto.tasksListId
     })
-    const taskList = room.tasksLists[0]
-    if (!taskList) {
+    const tasksList = room.tasksLists[0]
+    if (!tasksList) {
       throw new NotFoundException(
-        `Task list from taskListId ${taskListIdDto.taskListId} not found.`
+        `Task list from tasksListId ${tasksListIdDto.tasksListId} not found.`
       )
     }
     // @todo add builder
-    return taskList
+    return tasksList
   }
 
-  public async deleteTaskList(
+  public async deleteTasksList(
     roomIdDto: RoomIdDto,
-    taskListIdDto: TaskListIdDto
+    tasksListIdDto: TasksListIdDto
   ): Promise<void> {
     // @todo remove all the doc or only the subdoc ?
     try {
       await this.roomModel.findOneAndRemove({
         _id: roomIdDto,
-        'tasksLists._id': taskListIdDto.taskListId
+        'tasksLists._id': tasksListIdDto.tasksListId
       })
     } catch (err) {
       throw new InternalServerErrorException('Task list not deleted.')
@@ -120,13 +121,13 @@ export class RoomsService {
 
   public async createTask(
     roomIdDto: RoomIdDto,
-    taskListIdDto: TaskListIdDto,
+    tasksListIdDto: TasksListIdDto,
     createTaskDto: CreateTaskDto
   ): Promise<Room> {
     try {
       // @todo findOneAndUpdate return the new Object ?
       const room = await this.roomModel.findOneAndUpdate(
-        { _id: roomIdDto, 'tasksLists._id': taskListIdDto.taskListId },
+        { _id: roomIdDto, 'tasksLists._id': tasksListIdDto.tasksListId },
         {
           // @todo not sure it is good
           $push: { tasks: createTaskDto }
@@ -141,14 +142,14 @@ export class RoomsService {
 
   public async deleteTask(
     roomIdDto: RoomIdDto,
-    taskListIdDto: TaskListIdDto,
+    tasksListIdDto: TasksListIdDto,
     taskIdDto: TaskIdDto
   ): Promise<void> {
     try {
       // @todo remove all the doc or only the subdoc ?
       await this.roomModel.findOneAndRemove({
         _id: roomIdDto,
-        'tasksLists._id': taskListIdDto.taskListId,
+        'tasksLists._id': tasksListIdDto.tasksListId,
         'tasks._id': taskIdDto.taskId
       })
     } catch (err) {

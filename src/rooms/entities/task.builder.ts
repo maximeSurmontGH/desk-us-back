@@ -1,5 +1,5 @@
-import { Task } from '../task.entity'
-import { ITask } from '../task.interface'
+import { Task } from './task.entity'
+import { ITask } from './task.interface'
 
 export class TaskBuilder {
   private task: Task

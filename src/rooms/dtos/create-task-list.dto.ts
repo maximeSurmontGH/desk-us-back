@@ -1,6 +1,6 @@
 import { IsString, IsNumber, IsNotEmpty, MaxLength } from 'class-validator'
 
-export class CreateTaskListDto {
+export class CreateTasksListDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(30)
