@@ -107,6 +107,7 @@ export class RoomsService {
     roomIdDto: RoomIdDto,
     taskListIdDto: TaskListIdDto
   ): Promise<void> {
+    // @todo remove all the doc or only the subdoc ?
     try {
       await this.roomModel.findOneAndRemove({
         _id: roomIdDto,
@@ -144,6 +145,7 @@ export class RoomsService {
     taskIdDto: TaskIdDto
   ): Promise<void> {
     try {
+      // @todo remove all the doc or only the subdoc ?
       await this.roomModel.findOneAndRemove({
         _id: roomIdDto,
         'tasksLists._id': taskListIdDto.taskListId,

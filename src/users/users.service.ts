@@ -13,7 +13,7 @@ import { UserIdDto } from './dtos/user-id.dto'
 import { IsEmailExistingDto } from './dtos/is-email-existing.dto'
 import { IsLoginExistingDto } from './dtos/is-login-existing.dto'
 
-import { User } from './entities/user.entities'
+import { User } from './entities/user.entity'
 
 @Injectable()
 export class UsersService {

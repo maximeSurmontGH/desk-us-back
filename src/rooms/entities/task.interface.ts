@@ -6,6 +6,7 @@ export enum EState {
 }
 
 export interface ITask extends mongoose.Document {
+  readonly _id?: string
   readonly taskId: string
   readonly order: number
   readonly message: string
