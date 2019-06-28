@@ -7,11 +7,8 @@ import {
   Body,
   UseFilters
 } from '@nestjs/common'
-
 import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
-
 import { UsersService } from './users.service'
-
 import { CreateUserDto } from './dtos/create-user.dto'
 import { ConnectUserDto } from './dtos/connect-user.dto'
 import { UserIdDto } from './dtos/user-id.dto'

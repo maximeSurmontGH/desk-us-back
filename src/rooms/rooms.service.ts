@@ -11,12 +11,14 @@ import { CreateTasksListDto } from './dtos/create-task-list.dto'
 import { TasksListIdDto } from './dtos/task-list-id.dto'
 import { TaskIdDto } from './dtos/task-id.dto'
 import { CreateTaskDto } from './dtos/create-task.dto'
-import { IRoom } from './entities/room.interface'
-import { ITasksList } from './entities/tasks-list.interface'
-import { ITask } from './entities/task.interface'
+import { IRoom } from './schemas/room.interface'
+import { ITasksList } from './schemas/tasks-list.interface'
+import { ITask } from './schemas/task.interface'
 import { Room } from './entities/room.entity'
 import { TasksList } from './entities/tasks-list.entity'
 import { Task } from './entities/task.entity'
+import { RoomBuilder } from './entities/room.builder'
+import { TasksListBuilder } from './entities/tasks-list.builder'
 
 @Injectable()
 export class RoomsService {
@@ -32,14 +34,21 @@ export class RoomsService {
     if (!rooms.length) {
       throw new NotFoundException('No rooms found.')
     }
-    // @todo add builder
-    return rooms
+    return rooms.map(room =>
+      RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    )
   }
 
   public async createRoom(createRoomDto: CreateRoomDto): Promise<Room> {
     try {
       const roomModel = new this.roomModel(createRoomDto)
-      return roomModel.save()
+      // nw or old obj returned ?
+      const room = roomModel.save()
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
     } catch (err) {
       throw new InternalServerErrorException('New room not saved.')
     }
@@ -52,8 +61,9 @@ export class RoomsService {
         `Room from roomId ${roomIdDto.roomId} not found.`
       )
     }
-    // @todo add builder
-    return room
+    return RoomBuilder.aRoom()
+      .fromSchemaResponse(room)
+      .build()
   }
 
   public async deleteRoom(roomIdDto: RoomIdDto): Promise<void> {
@@ -79,8 +89,9 @@ export class RoomsService {
           $push: { tasksLists: createTasksListDto }
         }
       )
-      // @todo add builder
-      return room
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
     } catch (err) {
       throw new InternalServerErrorException('New task list not saved.')
     }
@@ -90,6 +101,7 @@ export class RoomsService {
     roomIdDto: RoomIdDto,
     tasksListIdDto: TasksListIdDto
   ): Promise<TasksList> {
+    // @todo room or takslist?
     const room = await this.roomModel.findOneAndUpdate({
       _id: roomIdDto,
       'tasksLists._id': tasksListIdDto.tasksListId
@@ -100,8 +112,9 @@ export class RoomsService {
         `Task list from tasksListId ${tasksListIdDto.tasksListId} not found.`
       )
     }
-    // @todo add builder
-    return tasksList
+    return TasksListBuilder.aTasksList()
+      .fromSchemaResponse(tasksList)
+      .build()
   }
 
   public async deleteTasksList(
@@ -133,8 +146,9 @@ export class RoomsService {
           $push: { tasks: createTaskDto }
         }
       )
-      // @todo add builder
-      return room
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
     } catch (err) {
       throw new InternalServerErrorException('New task list not saved.')
     }

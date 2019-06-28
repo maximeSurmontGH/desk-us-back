@@ -1,5 +1,5 @@
 import { User } from './user.entity'
-import { IUser } from './user.interface'
+import { IUser } from '../schemas/user.interface'
 
 export class UserBuilder {
   private user: User

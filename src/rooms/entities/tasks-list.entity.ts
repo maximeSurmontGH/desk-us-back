@@ -1,4 +1,4 @@
-import { ITasksList } from './tasks-list.interface'
+import { ITasksList } from '../schemas/tasks-list.interface'
 import { Task } from './task.entity'
 
 export class TasksList implements ITasksList {

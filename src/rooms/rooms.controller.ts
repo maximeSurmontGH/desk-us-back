@@ -7,11 +7,8 @@ import {
   Body,
   UseFilters
 } from '@nestjs/common'
-
 import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
-
 import { RoomsService } from './rooms.service'
-
 import { CreateTasksListDto } from './dtos/create-task-list.dto'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import { CreateRoomDto } from './dtos/create-room.dto'

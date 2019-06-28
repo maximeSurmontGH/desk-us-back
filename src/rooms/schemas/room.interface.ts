@@ -1,5 +1,5 @@
 import { ITasksList } from './tasks-list.interface'
-import { IUser } from '../../users/entities/user.interface'
+import { IUser } from '../../users/schemas/user.interface'
 import * as mongoose from 'mongoose'
 
 export interface IRoom extends mongoose.Document {

@@ -1,4 +1,4 @@
-import { IUser } from './user.interface'
+import { IUser } from '../schemas/user.interface'
 
 export class User implements IUser {
   public userId: string

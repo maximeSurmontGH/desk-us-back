@@ -1,4 +1,4 @@
-import { IRoom } from './room.interface'
+import { IRoom } from '../schemas/room.interface'
 import { Room } from './room.entity'
 import { TasksListBuilder } from './tasks-list.builder'
 import { UserBuilder } from 'src/users/entities/user.builder'

@@ -1,4 +1,4 @@
-import { ITask, EState } from './task.interface'
+import { ITask, EState } from '../schemas/task.interface'
 
 export class Task implements ITask {
   public taskId: string

@@ -1,5 +1,5 @@
 import { TasksList } from './tasks-list.entity'
-import { ITasksList } from './tasks-list.interface'
+import { ITasksList } from '../schemas/tasks-list.interface'
 import { TaskBuilder } from './task.builder'
 
 export class TasksListBuilder {
