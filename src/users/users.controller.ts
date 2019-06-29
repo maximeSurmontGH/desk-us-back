@@ -30,12 +30,12 @@ export class UsersController {
     return this.usersService.connectUser(connectUserDto)
   }
 
-  @Get('/isEmailExisting')
+  @Post('/isEmailExisting')
   isEmailExisting(@Body() isEmailExistingDto: IsEmailExistingDto) {
     return this.usersService.isEmailExisting(isEmailExistingDto)
   }
 
-  @Get('/isLoginExisting')
+  @Post('/isLoginExisting')
   isLoginExisting(@Body() isLoginExistingDto: IsLoginExistingDto) {
     return this.usersService.isLoginExisting(isLoginExistingDto)
   }

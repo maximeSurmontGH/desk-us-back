@@ -31,7 +31,6 @@ export class UsersService {
     }
     try {
       const userModel = new this.userModel(createUserDto)
-      // nw or old obj returned ?
       const user = await userModel.save()
       return UserBuilder.aUser()
         .fromSchemaResponse(user)
@@ -48,22 +47,6 @@ export class UsersService {
     return !!isUserExisting.length
   }
 
-  public async isLoginExisting(
-    isLoginExistingDto: IsLoginExistingDto
-  ): Promise<boolean> {
-    const isLoginExisting = await this.userModel.find(isLoginExistingDto)
-    return !!isLoginExisting.length
-  }
-
-  public async isEmailExisting(
-    isEmailExistingDto: IsEmailExistingDto
-  ): Promise<boolean> {
-    const isEmailExisting = await this.userModel.find({
-      login: isEmailExistingDto.email
-    })
-    return !!isEmailExisting.length
-  }
-
   public async connectUser(connectUserDto: ConnectUserDto): Promise<User> {
     const user = await this.userModel.findOne({
       login: connectUserDto.login,
@@ -75,6 +58,22 @@ export class UsersService {
     return UserBuilder.aUser()
       .fromSchemaResponse(user)
       .build()
+  }
+
+  public async isEmailExisting(
+    isEmailExistingDto: IsEmailExistingDto
+  ): Promise<boolean> {
+    const isEmailExisting = await this.userModel.find({
+      email: isEmailExistingDto.email
+    })
+    return !!isEmailExisting.length
+  }
+
+  public async isLoginExisting(
+    isLoginExistingDto: IsLoginExistingDto
+  ): Promise<boolean> {
+    const isLoginExisting = await this.userModel.find(isLoginExistingDto)
+    return !!isLoginExisting.length
   }
 
   public async fetchUser(userIdDto: UserIdDto) {
