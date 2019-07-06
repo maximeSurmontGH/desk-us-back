@@ -15,6 +15,9 @@ import { CreateTaskDto } from './dtos/create-task.dto'
 import { CreateRoomDto } from './dtos/create-room.dto'
 import { UpdateTasksListOrderDto } from './dtos/update-task-list-order.dto'
 import { UpdateTasksListTitleDto } from './dtos/update-task-list-title.dto'
+import { UpdateTaskOrderDto } from './dtos/update-task-order.dto'
+import { UpdateTaskMessageDto } from './dtos/update-task-message.dto'
+import { UpdateTaskStateDto } from './dtos/update-task-state.dto'
 
 @Controller('rooms')
 @UseFilters(HttpExceptionFilter)
@@ -49,24 +52,28 @@ export class RoomsController {
     return this.roomsService.createTasksList(roomId, createTasksListDto)
   }
 
-  @Put('/:roomId/tasksLists/update-tasks-list-order')
+  @Put('/:roomId/tasksLists/:tasksListId/update-tasks-list-order')
   updateTasksListOrder(
     @Param('roomId') roomId: string,
+    @Param('tasksListId') tasksListId: string,
     @Body() updateTasksListOrderDto: UpdateTasksListOrderDto
   ) {
     return this.roomsService.updateTasksListOrder(
       roomId,
+      tasksListId,
       updateTasksListOrderDto
     )
   }
 
-  @Put('/:roomId/tasksLists/update-tasks-list-title')
+  @Put('/:roomId/tasksLists/:tasksListId/update-tasks-list-title')
   updateTasksListTitle(
     @Param('roomId') roomId: string,
+    @Param('tasksListId') tasksListId: string,
     @Body() updateTasksListTitleDto: UpdateTasksListTitleDto
   ) {
     return this.roomsService.updateTasksListTitle(
       roomId,
+      tasksListId,
       updateTasksListTitleDto
     )
   }
@@ -94,6 +101,51 @@ export class RoomsController {
     @Body() createTaskDto: CreateTaskDto
   ) {
     return this.roomsService.createTask(roomId, tasksListId, createTaskDto)
+  }
+
+  @Put('/:roomId/tasksLists/:tasksListId/tasks/:taskId/update-task-order')
+  updateTaskOrder(
+    @Param('roomId') roomId: string,
+    @Param('tasksListId') tasksListId: string,
+    @Param('taskId') taskId: string,
+    @Body() updateTaskOrderDto: UpdateTaskOrderDto
+  ) {
+    return this.roomsService.updateTaskOrder(
+      roomId,
+      tasksListId,
+      taskId,
+      updateTaskOrderDto
+    )
+  }
+
+  @Put('/:roomId/tasksLists/:tasksListId/tasks/:taskId/update-task-message')
+  updateTaskMessage(
+    @Param('roomId') roomId: string,
+    @Param('tasksListId') tasksListId: string,
+    @Param('taskId') taskId: string,
+    @Body() updateTaskMessageDto: UpdateTaskMessageDto
+  ) {
+    return this.roomsService.updateTaskMessage(
+      roomId,
+      tasksListId,
+      taskId,
+      updateTaskMessageDto
+    )
+  }
+
+  @Put('/:roomId/tasksLists/:tasksListId/tasks/:taskId/update-task-state')
+  updateTask(
+    @Param('roomId') roomId: string,
+    @Param('tasksListId') tasksListId: string,
+    @Param('taskId') taskId: string,
+    @Body() updateTaskStateDto: UpdateTaskStateDto
+  ) {
+    return this.roomsService.updateTaskState(
+      roomId,
+      tasksListId,
+      taskId,
+      updateTaskStateDto
+    )
   }
 
   @Delete('/:roomId/tasksLists/:tasksListId/tasks/:taskId')

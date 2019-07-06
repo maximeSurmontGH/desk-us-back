@@ -1,8 +1,9 @@
 SPRINT EN COURS (juillet 2019):
-[ ] Modifier ordre d'une tasksList
-[ ] Modifier titre d'une tasksList
-[ ] Modifier ordre d'une task
-[ ] Modifier titre d'une task
+[x] Modifier ordre d'une tasksList
+[x] Modifier titre d'une tasksList
+[x] Modifier ordre d'une task
+[x] Modifier message d'une task
+[x] Modifier l'etat d'une task
 [ ] Ajouter une room a un utilsateur
 [ ] Rechercher des rooms par nom
 [ ] Chat par room list
@@ -10,6 +11,8 @@ SPRINT EN COURS (juillet 2019):
 BACKLOG
 [ ] Jwt authentification
 [ ] Supprimer une room a un utilsateur
+[ ] Ajouter un état à une task list
+[ ] Modifier l'état d'une task list
 [ ] Ajout des tests unitaire builder
 [ ] Ajout des tests unitaire service
 [ ] Notion d'utilisateur admin / tasksList

@@ -17,6 +17,9 @@ import { RoomBuilder } from './entities/room.builder'
 import { TasksListBuilder } from './entities/tasks-list.builder'
 import { UpdateTasksListOrderDto } from './dtos/update-task-list-order.dto'
 import { UpdateTasksListTitleDto } from './dtos/update-task-list-title.dto'
+import { UpdateTaskOrderDto } from './dtos/update-task-order.dto'
+import { UpdateTaskMessageDto } from './dtos/update-task-message.dto'
+import { UpdateTaskStateDto } from './dtos/update-task-state.dto'
 
 @Injectable()
 export class RoomsService {
@@ -87,17 +90,18 @@ export class RoomsService {
         .fromSchemaResponse(room)
         .build()
     } catch (err) {
-      throw new InternalServerErrorException('New task list not saved.')
+      throw new InternalServerErrorException('New tasks list not saved.')
     }
   }
 
   public async updateTasksListOrder(
     roomId: string,
+    tasksListId: string,
     updateTasksListOrderDto: UpdateTasksListOrderDto
   ): Promise<Room> {
     try {
       const room = await this.roomModel.findOneAndUpdate(
-        { _id: roomId },
+        { _id: roomId, 'tasksLists._id': tasksListId },
         {
           order: updateTasksListOrderDto.order
         },
@@ -107,17 +111,18 @@ export class RoomsService {
         .fromSchemaResponse(room)
         .build()
     } catch (err) {
-      throw new InternalServerErrorException('Task list order not updated.')
+      throw new InternalServerErrorException('Tasks list order not updated.')
     }
   }
 
   public async updateTasksListTitle(
     roomId: string,
+    tasksListId: string,
     updateTasksListTitleDto: UpdateTasksListTitleDto
   ): Promise<Room> {
     try {
       const room = await this.roomModel.findOneAndUpdate(
-        { _id: roomId },
+        { _id: roomId, 'tasksLists._id': tasksListId },
         {
           title: updateTasksListTitleDto.title
         },
@@ -127,7 +132,7 @@ export class RoomsService {
         .fromSchemaResponse(room)
         .build()
     } catch (err) {
-      throw new InternalServerErrorException('Task list title not updated.')
+      throw new InternalServerErrorException('Tasks list title not updated.')
     }
   }
 
@@ -139,7 +144,7 @@ export class RoomsService {
     const tasksList = room.tasksLists.id(tasksListId)
     if (!tasksList) {
       throw new NotFoundException(
-        `Task list from tasksListId ${tasksListId} not found.`
+        `Tasks list from tasksListId ${tasksListId} not found.`
       )
     }
     return TasksListBuilder.aTasksList()
@@ -163,7 +168,7 @@ export class RoomsService {
         }
       )
     } catch (err) {
-      throw new InternalServerErrorException('Task list not deleted.')
+      throw new InternalServerErrorException('Tasks list not deleted.')
     }
   }
 
@@ -184,7 +189,73 @@ export class RoomsService {
         .fromSchemaResponse(room)
         .build()
     } catch (err) {
-      throw new InternalServerErrorException('New task list not saved.')
+      throw new InternalServerErrorException('New tasks list not saved.')
+    }
+  }
+
+  public async updateTaskOrder(
+    roomId: string,
+    tasksListId: string,
+    taskId: string,
+    updateTaskOrderDto: UpdateTaskOrderDto
+  ): Promise<Room> {
+    try {
+      const room = await this.roomModel.findOneAndUpdate(
+        { _id: roomId, 'tasksLists._id': tasksListId, 'task._id': taskId },
+        {
+          order: updateTaskOrderDto.order
+        },
+        { new: true }
+      )
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    } catch (err) {
+      throw new InternalServerErrorException('Task order not updated.')
+    }
+  }
+
+  public async updateTaskMessage(
+    roomId: string,
+    tasksListId: string,
+    taskId: string,
+    updateTaskMessageDto: UpdateTaskMessageDto
+  ): Promise<Room> {
+    try {
+      const room = await this.roomModel.findOneAndUpdate(
+        { _id: roomId, 'tasksLists._id': tasksListId, 'task._id': taskId },
+        {
+          message: updateTaskMessageDto.message
+        },
+        { new: true }
+      )
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    } catch (err) {
+      throw new InternalServerErrorException('Task message not updated.')
+    }
+  }
+
+  public async updateTaskState(
+    roomId: string,
+    tasksListId: string,
+    taskId: string,
+    updateTaskStateDto: UpdateTaskStateDto
+  ): Promise<Room> {
+    try {
+      const room = await this.roomModel.findOneAndUpdate(
+        { _id: roomId, 'tasksLists._id': tasksListId, 'task._id': taskId },
+        {
+          state: updateTaskStateDto.state
+        },
+        { new: true }
+      )
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    } catch (err) {
+      throw new InternalServerErrorException('Task state not updated.')
     }
   }
 
