@@ -5,13 +5,16 @@ import {
   Delete,
   Param,
   Body,
-  UseFilters
+  UseFilters,
+  Put
 } from '@nestjs/common'
 import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
 import { RoomsService } from './rooms.service'
 import { CreateTasksListDto } from './dtos/create-task-list.dto'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import { CreateRoomDto } from './dtos/create-room.dto'
+import { UpdateTasksListOrderDto } from './dtos/update-task-list-order.dto'
+import { UpdateTasksListTitleDto } from './dtos/update-task-list-title.dto'
 
 @Controller('rooms')
 @UseFilters(HttpExceptionFilter)
@@ -44,6 +47,28 @@ export class RoomsController {
     @Body() createTasksListDto: CreateTasksListDto
   ) {
     return this.roomsService.createTasksList(roomId, createTasksListDto)
+  }
+
+  @Put('/:roomId/tasksLists/update-tasks-list-order')
+  updateTasksListOrder(
+    @Param('roomId') roomId: string,
+    @Body() updateTasksListOrderDto: UpdateTasksListOrderDto
+  ) {
+    return this.roomsService.updateTasksListOrder(
+      roomId,
+      updateTasksListOrderDto
+    )
+  }
+
+  @Put('/:roomId/tasksLists/update-tasks-list-title')
+  updateTasksListTitle(
+    @Param('roomId') roomId: string,
+    @Body() updateTasksListTitleDto: UpdateTasksListTitleDto
+  ) {
+    return this.roomsService.updateTasksListTitle(
+      roomId,
+      updateTasksListTitleDto
+    )
   }
 
   @Get('/:roomId/tasksLists/:tasksListId')

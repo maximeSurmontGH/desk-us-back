@@ -10,6 +10,8 @@ SPRINT EN COURS (juillet 2019):
 BACKLOG
 [ ] Jwt authentification
 [ ] Supprimer une room a un utilsateur
+[ ] Ajout des tests unitaire builder
+[ ] Ajout des tests unitaire service
 [ ] Notion d'utilisateur admin / tasksList
 [ ] Modifier nom d'un utilisateur
 [ ] Modifier mdp utilisateur

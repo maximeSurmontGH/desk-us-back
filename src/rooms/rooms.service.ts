@@ -15,6 +15,8 @@ import { Room } from './entities/room.entity'
 import { TasksList } from './entities/tasks-list.entity'
 import { RoomBuilder } from './entities/room.builder'
 import { TasksListBuilder } from './entities/tasks-list.builder'
+import { UpdateTasksListOrderDto } from './dtos/update-task-list-order.dto'
+import { UpdateTasksListTitleDto } from './dtos/update-task-list-title.dto'
 
 @Injectable()
 export class RoomsService {
@@ -81,12 +83,51 @@ export class RoomsService {
         },
         { new: true }
       )
-
       return RoomBuilder.aRoom()
         .fromSchemaResponse(room)
         .build()
     } catch (err) {
       throw new InternalServerErrorException('New task list not saved.')
+    }
+  }
+
+  public async updateTasksListOrder(
+    roomId: string,
+    updateTasksListOrderDto: UpdateTasksListOrderDto
+  ): Promise<Room> {
+    try {
+      const room = await this.roomModel.findOneAndUpdate(
+        { _id: roomId },
+        {
+          order: updateTasksListOrderDto.order
+        },
+        { new: true }
+      )
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    } catch (err) {
+      throw new InternalServerErrorException('Task list order not updated.')
+    }
+  }
+
+  public async updateTasksListTitle(
+    roomId: string,
+    updateTasksListTitleDto: UpdateTasksListTitleDto
+  ): Promise<Room> {
+    try {
+      const room = await this.roomModel.findOneAndUpdate(
+        { _id: roomId },
+        {
+          title: updateTasksListTitleDto.title
+        },
+        { new: true }
+      )
+      return RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    } catch (err) {
+      throw new InternalServerErrorException('Task list title not updated.')
     }
   }
 
