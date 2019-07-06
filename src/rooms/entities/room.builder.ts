@@ -1,7 +1,6 @@
 import { IRoom } from '../schemas/room.interface'
 import { Room } from './room.entity'
 import { TasksListBuilder } from './tasks-list.builder'
-import { UserBuilder } from 'src/users/entities/user.builder'
 
 export class RoomBuilder {
   private room: Room
@@ -15,19 +14,16 @@ export class RoomBuilder {
   }
 
   public fromSchemaResponse(room: IRoom): this {
-    this.room.roomId = room._id || ''
+    this.room.roomId = `${room._id}` || ''
     this.room.title = room.title
     this.room.description = room.description
-    this.room.tasksLists = room.tasksLists.map(tasksList =>
-      TasksListBuilder.aTasksList()
-        .fromSchemaResponse(tasksList)
-        .build()
-    )
-    this.room.users = room.users.map(user =>
-      UserBuilder.aUser()
-        .fromSchemaResponse(user)
-        .build()
-    )
+    this.room.tasksLists = (room.tasksLists || [])
+      .map(tasksList =>
+        TasksListBuilder.aTasksList()
+          .fromSchemaResponse(tasksList)
+          .build()
+      )
+      .sort((a, b) => a.order - b.order)
     return this
   }
 
@@ -48,11 +44,6 @@ export class RoomBuilder {
 
   public withTasksLists(tasksLists: Room['tasksLists']): this {
     this.room.tasksLists = tasksLists
-    return this
-  }
-
-  public withUsers(users: Room['users']): this {
-    this.room.users = users
     return this
   }
 

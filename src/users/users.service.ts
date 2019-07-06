@@ -8,7 +8,6 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { ConnectUserDto } from './dtos/connect-user.dto'
-import { UserIdDto } from './dtos/user-id.dto'
 import { IsEmailExistingDto } from './dtos/is-email-existing.dto'
 import { IsLoginExistingDto } from './dtos/is-login-existing.dto'
 import { User } from './entities/user.entity'
@@ -76,26 +75,22 @@ export class UsersService {
     return !!isLoginExisting.length
   }
 
-  public async fetchUser(userIdDto: UserIdDto) {
-    const user = await this.userModel.findOne({ _id: userIdDto })
+  public async fetchUser(userId: string) {
+    const user = await this.userModel.findOne({ _id: userId })
     if (!user) {
-      throw new NotFoundException(
-        `User from userId ${userIdDto.userId} not found.`
-      )
+      throw new NotFoundException(`User from userId ${userId} not found.`)
     }
     return UserBuilder.aUser()
       .fromSchemaResponse(user)
       .build()
   }
 
-  public async deleteUser(userIdDto: UserIdDto) {
+  public async deleteUser(userId: string) {
     const deleteResult = await this.userModel.findOneAndDelete({
-      _id: userIdDto
+      _id: userId
     })
     if (!deleteResult) {
-      throw new NotFoundException(
-        `User from userId ${userIdDto.userId} not found.`
-      )
+      throw new NotFoundException(`User from userId ${userId} not found.`)
     }
   }
 }

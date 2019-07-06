@@ -4,13 +4,12 @@
 
 ## Description
 
-Simple To Do App.
+Desks Us is a to do app working with rooms.
+A Room regroup major tasks splittable in minor tasks and a global room chat.
 
 Back end repository.
 
-A user can connect and create different rooms. Each rooms have its own mini to-do-list and a chat.
-
-Based on [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Based on [Nest](https://github.com/nestjs/nest) framework starter repository.
 
 ## Installation
 

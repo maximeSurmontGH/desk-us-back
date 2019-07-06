@@ -13,7 +13,7 @@ export class UserBuilder {
   }
 
   public fromSchemaResponse(user: IUser): this {
-    this.user.userId = user._id || ''
+    this.user.userId = `${user._id}` || ''
     this.user.email = user.email
     this.user.login = user.login
     this.user.password = user.password

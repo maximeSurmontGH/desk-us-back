@@ -11,7 +11,6 @@ import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { ConnectUserDto } from './dtos/connect-user.dto'
-import { UserIdDto } from './dtos/user-id.dto'
 import { IsEmailExistingDto } from './dtos/is-email-existing.dto'
 import { IsLoginExistingDto } from './dtos/is-login-existing.dto'
 
@@ -41,12 +40,12 @@ export class UsersController {
   }
 
   @Get('/:userId')
-  fetchUser(@Param('userId') userId: UserIdDto) {
+  fetchUser(@Param('userId') userId: string) {
     return this.usersService.fetchUser(userId)
   }
 
   @Delete('/:userId')
-  deleteUser(@Param('userId') userId: UserIdDto) {
+  deleteUser(@Param('userId') userId: string) {
     return this.usersService.deleteUser(userId)
   }
 }

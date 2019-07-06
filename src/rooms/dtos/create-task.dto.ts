@@ -1,14 +1,21 @@
-import { IsString, IsInt, IsEnum, IsNotEmpty, MaxLength } from 'class-validator'
+import {
+  IsString,
+  IsInt,
+  IsEnum,
+  IsNotEmpty,
+  MaxLength,
+  Max
+} from 'class-validator'
 
 export enum EState {
   IS_CHECKED = 'is-checked',
-  IS_NOT_CHECKED = 'is-not-checked',
+  IS_NOT_CHECKED = 'is-not-checked'
 }
 
 export class CreateTaskDto {
   @IsInt()
   @IsNotEmpty()
-  @MaxLength(10)
+  @Max(10)
   readonly order: number
 
   @IsString()
@@ -18,6 +25,6 @@ export class CreateTaskDto {
 
   @IsEnum(EState)
   @IsNotEmpty()
-  @MaxLength(10)
+  @MaxLength(30)
   readonly state: EState
 }

@@ -14,14 +14,16 @@ export class TasksListBuilder {
   }
 
   public fromSchemaResponse(tasksList: ITasksList): this {
-    this.tasksList.tasksListId = tasksList._id || ''
+    this.tasksList.tasksListId = `${tasksList._id}` || ''
     this.tasksList.title = tasksList.title
     this.tasksList.order = tasksList.order
-    this.tasksList.tasks = tasksList.tasks.map(task =>
-      TaskBuilder.aTask()
-        .fromSchemaResponse(task)
-        .build()
-    )
+    this.tasksList.tasks = (tasksList.tasks || [])
+      .map(task =>
+        TaskBuilder.aTask()
+          .fromSchemaResponse(task)
+          .build()
+      )
+      .sort((a, b) => a.order - b.order)
     return this
   }
 

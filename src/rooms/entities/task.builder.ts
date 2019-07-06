@@ -13,7 +13,7 @@ export class TaskBuilder {
   }
 
   public fromSchemaResponse(task: ITask): this {
-    this.task.taskId = task._id || ''
+    this.task.taskId = `${task._id}` || ''
     this.task.order = task.order
     this.task.message = task.message
     this.task.state = task.state

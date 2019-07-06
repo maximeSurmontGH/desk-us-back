@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsNotEmpty, MaxLength } from 'class-validator'
+import { IsString, IsNumber, IsNotEmpty, MaxLength, Max } from 'class-validator'
 
 export class CreateTasksListDto {
   @IsString()
@@ -8,6 +8,6 @@ export class CreateTasksListDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @MaxLength(10)
+  @Max(1000)
   readonly order: number
 }
