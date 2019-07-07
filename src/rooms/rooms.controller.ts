@@ -18,6 +18,7 @@ import { UpdateTasksListTitleDto } from './dtos/update-task-list-title.dto'
 import { UpdateTaskOrderDto } from './dtos/update-task-order.dto'
 import { UpdateTaskMessageDto } from './dtos/update-task-message.dto'
 import { UpdateTaskStateDto } from './dtos/update-task-state.dto'
+import { FetchRoomsByLabelDto } from './dtos/fetch-rooms-by-label.dto'
 
 @Controller('rooms')
 @UseFilters(HttpExceptionFilter)
@@ -27,6 +28,11 @@ export class RoomsController {
   @Get('')
   fetchRooms() {
     return this.roomsService.fetchRooms()
+  }
+
+  @Post('fetch-rooms-by-label')
+  fetchRoomsByLabel(@Body() fetchRoomsByLabelDto: FetchRoomsByLabelDto) {
+    return this.roomsService.fetchRoomsByLabel(fetchRoomsByLabelDto)
   }
 
   @Post('')

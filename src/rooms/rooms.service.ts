@@ -20,6 +20,7 @@ import { UpdateTasksListTitleDto } from './dtos/update-task-list-title.dto'
 import { UpdateTaskOrderDto } from './dtos/update-task-order.dto'
 import { UpdateTaskMessageDto } from './dtos/update-task-message.dto'
 import { UpdateTaskStateDto } from './dtos/update-task-state.dto'
+import { FetchRoomsByLabelDto } from './dtos/fetch-rooms-by-label.dto'
 
 @Injectable()
 export class RoomsService {
@@ -32,6 +33,22 @@ export class RoomsService {
 
   public async fetchRooms(): Promise<Room[]> {
     const rooms = await this.roomModel.find()
+    if (!rooms.length) {
+      throw new NotFoundException('No rooms found.')
+    }
+    return rooms.map(room =>
+      RoomBuilder.aRoom()
+        .fromSchemaResponse(room)
+        .build()
+    )
+  }
+
+  public async fetchRoomsByLabel(
+    fetchRoomsByLabelDto: FetchRoomsByLabelDto
+  ): Promise<Room[]> {
+    const rooms = await this.roomModel.find({
+      title: new RegExp(fetchRoomsByLabelDto.title, 'gi')
+    })
     if (!rooms.length) {
       throw new NotFoundException('No rooms found.')
     }
