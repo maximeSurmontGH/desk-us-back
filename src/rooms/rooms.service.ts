@@ -103,7 +103,9 @@ export class RoomsService {
       const room = await this.roomModel.findOneAndUpdate(
         { _id: roomId, 'tasksLists._id': tasksListId },
         {
-          order: updateTasksListOrderDto.order
+          $set: {
+            'tasksLists.$.order': updateTasksListOrderDto.order
+          }
         },
         { new: true }
       )
@@ -124,7 +126,9 @@ export class RoomsService {
       const room = await this.roomModel.findOneAndUpdate(
         { _id: roomId, 'tasksLists._id': tasksListId },
         {
-          title: updateTasksListTitleDto.title
+          $set: {
+            'tasksLists.$.title': updateTasksListTitleDto.title
+          }
         },
         { new: true }
       )
@@ -201,11 +205,24 @@ export class RoomsService {
   ): Promise<Room> {
     try {
       const room = await this.roomModel.findOneAndUpdate(
-        { _id: roomId, 'tasksLists._id': tasksListId, 'task._id': taskId },
         {
-          order: updateTaskOrderDto.order
+          _id: roomId,
+          tasksLists: {
+            $elemMatch: {
+              _id: tasksListId,
+              'tasks._id': taskId
+            }
+          }
         },
-        { new: true }
+        {
+          $set: {
+            'tasksLists.$[outer].tasks.$[inner].order': updateTaskOrderDto.order
+          }
+        },
+        {
+          arrayFilters: [{ 'outer._id': tasksListId }, { 'inner._id': taskId }],
+          new: true
+        }
       )
       return RoomBuilder.aRoom()
         .fromSchemaResponse(room)
@@ -223,11 +240,25 @@ export class RoomsService {
   ): Promise<Room> {
     try {
       const room = await this.roomModel.findOneAndUpdate(
-        { _id: roomId, 'tasksLists._id': tasksListId, 'task._id': taskId },
         {
-          message: updateTaskMessageDto.message
+          _id: roomId,
+          tasksLists: {
+            $elemMatch: {
+              _id: tasksListId,
+              'tasks._id': taskId
+            }
+          }
         },
-        { new: true }
+        {
+          $set: {
+            'tasksLists.$[outer].tasks.$[inner].message':
+              updateTaskMessageDto.message
+          }
+        },
+        {
+          arrayFilters: [{ 'outer._id': tasksListId }, { 'inner._id': taskId }],
+          new: true
+        }
       )
       return RoomBuilder.aRoom()
         .fromSchemaResponse(room)
@@ -245,11 +276,24 @@ export class RoomsService {
   ): Promise<Room> {
     try {
       const room = await this.roomModel.findOneAndUpdate(
-        { _id: roomId, 'tasksLists._id': tasksListId, 'task._id': taskId },
         {
-          state: updateTaskStateDto.state
+          _id: roomId,
+          tasksLists: {
+            $elemMatch: {
+              _id: tasksListId,
+              'tasks._id': taskId
+            }
+          }
         },
-        { new: true }
+        {
+          $set: {
+            'tasksLists.$[outer].tasks.$[inner].state': updateTaskStateDto.state
+          }
+        },
+        {
+          arrayFilters: [{ 'outer._id': tasksListId }, { 'inner._id': taskId }],
+          new: true
+        }
       )
       return RoomBuilder.aRoom()
         .fromSchemaResponse(room)

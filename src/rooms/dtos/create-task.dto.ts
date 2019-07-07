@@ -15,7 +15,7 @@ export enum EState {
 export class CreateTaskDto {
   @IsInt()
   @IsNotEmpty()
-  @Max(10)
+  @Max(1000)
   readonly order: number
 
   @IsString()

@@ -52,6 +52,14 @@ export class RoomsController {
     return this.roomsService.createTasksList(roomId, createTasksListDto)
   }
 
+  @Get('/:roomId/tasksLists/:tasksListId')
+  fetchTasksList(
+    @Param('roomId') roomId: string,
+    @Param('tasksListId') tasksListId: string
+  ) {
+    return this.roomsService.fetchTasksList(roomId, tasksListId)
+  }
+
   @Put('/:roomId/tasksLists/:tasksListId/update-tasks-list-order')
   updateTasksListOrder(
     @Param('roomId') roomId: string,
@@ -76,14 +84,6 @@ export class RoomsController {
       tasksListId,
       updateTasksListTitleDto
     )
-  }
-
-  @Get('/:roomId/tasksLists/:tasksListId')
-  fetchTasksList(
-    @Param('roomId') roomId: string,
-    @Param('tasksListId') tasksListId: string
-  ) {
-    return this.roomsService.fetchTasksList(roomId, tasksListId)
   }
 
   @Delete('/:roomId/tasksLists/:tasksListId')
