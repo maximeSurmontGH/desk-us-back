@@ -6,13 +6,17 @@ SPRINT EN COURS (juillet 2019):
 [x] Modifier l'etat d'une task
 [ ] Ajouter une room a un utilsateur
 [x] Rechercher des rooms par nom
-[ ] Chat par room list
+[~] Chat par room list
 
 BACKLOG
 [ ] Jwt authentification
 [ ] Supprimer une room a un utilsateur
 [ ] Ajouter un état à une task list
 [ ] Modifier l'état d'une task list
+[ ] Assigner une task à quelqu'un
+[ ] Connaître les personnes connectée sur le chat
+[ ] Gérer les task qui nous sont assignées
+[ ] Savoir qui envoit les messages
 [ ] Notion des tags sur les rooms
 [ ] Recherche par tag
 [ ] Tags par utilisateurs
