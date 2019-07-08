@@ -18,6 +18,7 @@ export class UserBuilder {
     this.user.login = user.login
     this.user.password = user.password
     this.user.name = user.name
+    this.user.roomIds = user.roomIds
     return this
   }
 
@@ -43,6 +44,11 @@ export class UserBuilder {
 
   public withName(name: User['name']): this {
     this.user.name = name
+    return this
+  }
+
+  public withRoomIds(roomIds: User['roomIds']): this {
+    this.user.roomIds = roomIds
     return this
   }
 

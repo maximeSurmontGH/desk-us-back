@@ -4,7 +4,7 @@ SPRINT EN COURS (juillet 2019):
 [x] Modifier ordre d'une task
 [x] Modifier message d'une task
 [x] Modifier l'etat d'une task
-[ ] Ajouter une room a un utilsateur
+[x] Ajouter une room a un utilsateur
 [x] Rechercher des rooms par nom
 [~] Chat par room list
 

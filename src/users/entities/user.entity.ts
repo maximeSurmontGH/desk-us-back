@@ -6,4 +6,5 @@ export class User implements IUser {
   public login: string
   public password: string
   public name: string
+  public roomIds: string[]
 }

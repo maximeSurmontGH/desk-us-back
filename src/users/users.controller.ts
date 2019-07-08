@@ -13,6 +13,7 @@ import { CreateUserDto } from './dtos/create-user.dto'
 import { ConnectUserDto } from './dtos/connect-user.dto'
 import { IsEmailExistingDto } from './dtos/is-email-existing.dto'
 import { IsLoginExistingDto } from './dtos/is-login-existing.dto'
+import { AddRoomIdDto } from './dtos/add-room-id.dto'
 
 @Controller('users')
 @UseFilters(HttpExceptionFilter)
@@ -22,6 +23,11 @@ export class UsersController {
   @Post('')
   createUser(@Body() userDto: CreateUserDto) {
     return this.usersService.createUser(userDto)
+  }
+
+  @Get('')
+  fetchUsers() {
+    return this.usersService.fetchUsers()
   }
 
   @Post('/connection')
@@ -47,5 +53,10 @@ export class UsersController {
   @Delete('/:userId')
   deleteUser(@Param('userId') userId: string) {
     return this.usersService.deleteUser(userId)
+  }
+
+  @Post('/:userId')
+  addRoom(@Param('userId') userId: string, @Body() addRoomIdDto: AddRoomIdDto) {
+    return this.usersService.addRoom(userId, addRoomIdDto)
   }
 }

@@ -13,10 +13,15 @@ import { IsLoginExistingDto } from './dtos/is-login-existing.dto'
 import { User } from './entities/user.entity'
 import { UserBuilder } from './entities/user.builder'
 import { IUser } from './schemas/user.interface'
+import { AddRoomIdDto } from './dtos/add-room-id.dto'
+import { RoomsService } from 'src/rooms/rooms.service'
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private readonly userModel: Model<IUser>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<IUser>,
+    private readonly roomsService: RoomsService
+  ) {}
 
   public async createUser(createUserDto: CreateUserDto): Promise<User> {
     const isUserExisting = await this.isUserExisting(
@@ -37,6 +42,18 @@ export class UsersService {
     } catch (err) {
       throw new InternalServerErrorException('New user not saved.')
     }
+  }
+
+  public async fetchUsers() {
+    const users = await this.userModel.find()
+    if (!users) {
+      throw new NotFoundException(`No user found.`)
+    }
+    return users.map(user =>
+      UserBuilder.aUser()
+        .fromSchemaResponse(user)
+        .build()
+    )
   }
 
   public async isUserExisting(email: string, login: string): Promise<boolean> {
@@ -91,6 +108,27 @@ export class UsersService {
     })
     if (!deleteResult) {
       throw new NotFoundException(`User from userId ${userId} not found.`)
+    }
+  }
+
+  public async addRoom(userId: string, addRoomIdDto: AddRoomIdDto) {
+    try {
+      const room = await this.roomsService.fetchRoom(addRoomIdDto.roomId)
+      if (!room) {
+        throw new NotFoundException('Room does not exist.')
+      }
+      const user = await this.userModel.findOneAndUpdate(
+        { _id: userId },
+        {
+          $push: { roomIds: addRoomIdDto.roomId }
+        },
+        { new: true }
+      )
+      return UserBuilder.aUser()
+        .fromSchemaResponse(user)
+        .build()
+    } catch (err) {
+      throw new InternalServerErrorException('Room not added.')
     }
   }
 }
